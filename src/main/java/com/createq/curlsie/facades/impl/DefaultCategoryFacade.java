@@ -17,7 +17,6 @@ public class DefaultCategoryFacade implements CategoryFacade {
     private final CategoryService categoryService;
     private final CategoryConverter categoryConverter;
 
-    @Autowired
     public DefaultCategoryFacade(CategoryService categoryService, CategoryConverter categoryConverter) {
         this.categoryService = categoryService;
         this.categoryConverter = categoryConverter;

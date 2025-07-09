@@ -13,7 +13,6 @@ public class DefaultCategoryService implements CategoryService {
 
     private final CategoryRepository categoryRepository;
 
-    @Autowired
     public DefaultCategoryService(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
     }
@@ -22,6 +21,7 @@ public class DefaultCategoryService implements CategoryService {
         return categoryRepository;
     }
 
+    @Override
     public List<CategoryModel> getAll() {
 
         return categoryRepository.findAll();

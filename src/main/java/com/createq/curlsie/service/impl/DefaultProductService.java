@@ -22,6 +22,7 @@ public class DefaultProductService implements ProductService {
         return productRepository;
     }
 
+    @Override
     public List<ProductModel> getAll() {
         return productRepository.findAll();
     }

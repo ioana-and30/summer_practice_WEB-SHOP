@@ -12,7 +12,7 @@ public class ProductDTO {
     private String description;
     private Double price;
     private String image;
-    private CategoryModel category;
+    private CategoryDTO category;
 
     public Long getId() {
         return id;
@@ -54,11 +54,11 @@ public class ProductDTO {
         this.image = image;
     }
 
-    public CategoryModel getCategory() {
+    public CategoryDTO getCategory() {
         return category;
     }
 
-    public void setCategory(CategoryModel category) {
+    public void setCategory(CategoryDTO category) {
         this.category = category;
     }
 }

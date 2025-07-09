@@ -12,7 +12,6 @@ public class ProductController {
 
     private final ProductFacade productFacade;
 
-    @Autowired
     public ProductController(ProductFacade productFacade) {
         this.productFacade = productFacade;
     }
@@ -21,8 +20,6 @@ public class ProductController {
     public String productsByCategory(@RequestParam Long categoryId, Model model) {
 
         var products = productFacade.getByCategoryId(categoryId);
-        System.out.println("Products for category " + categoryId + ": " + products.size());
-
         model.addAttribute("products", products);
         return "products";
     }

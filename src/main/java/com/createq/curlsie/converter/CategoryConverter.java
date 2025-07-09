@@ -12,7 +12,6 @@ import java.util.List;
 @Component
 public class CategoryConverter {
 
-    @Autowired
     private final ProductConverter productConverter;
 
     public CategoryConverter(ProductConverter productConverter) {

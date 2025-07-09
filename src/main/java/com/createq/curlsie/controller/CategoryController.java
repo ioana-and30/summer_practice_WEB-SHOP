@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
 import java.util.List;
 
 @Controller
@@ -22,12 +23,12 @@ public class CategoryController {
         this.productFacade = productFacade;
     }
 
-    @GetMapping("categories")
+    @GetMapping("/categories")
     public String getCategories(@RequestParam(value = "categoryId", required = false) Long categoryId, Model model) {
         var categories = categoryFacade.getAll();
         model.addAttribute("categories", categories);
 
-        if (categoryId == null && !categories.isEmpty()) {
+        if (categoryId==null && !categories.isEmpty()) {
             categoryId = categories.get(0).getId();
         }
 
@@ -35,7 +36,6 @@ public class CategoryController {
             model.addAttribute("products", productFacade.getByCategoryId(categoryId));
         }
 
-        model.addAttribute("products", productFacade.getByCategoryId(categoryId));
         model.addAttribute("selectedCategoryId", categoryId);
 
         return "categories";
