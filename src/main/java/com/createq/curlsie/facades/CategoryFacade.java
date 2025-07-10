@@ -8,5 +8,5 @@ public interface CategoryFacade {
 
     public List<CategoryDTO> getAll();
 
-    List<CategoryDTO> getByCategoryId(Long categoryId);
+    CategoryDTO getByCategoryId(Long categoryId);
 }

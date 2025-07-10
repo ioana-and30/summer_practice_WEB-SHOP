@@ -1,5 +1,6 @@
 package com.createq.curlsie.controller;
 
+import com.createq.curlsie.dto.CategoryDTO;
 import com.createq.curlsie.dto.ProductDTO;
 import com.createq.curlsie.facades.CategoryFacade;
 import com.createq.curlsie.facades.ProductFacade;
@@ -28,22 +29,10 @@ public class CategoryController {
         var categories = categoryFacade.getAll();
         model.addAttribute("categories", categories);
 
-        if (categoryId==null && !categories.isEmpty()) {
-            categoryId = categories.get(0).getId();
-        }
-
-        if (categoryId != null) {
-            model.addAttribute("products", productFacade.getByCategoryId(categoryId));
-        }
-
-        model.addAttribute("selectedCategoryId", categoryId);
+        CategoryDTO selectedCategory = categoryFacade.getByCategoryId(categoryId);
+        model.addAttribute("selectedCategory", selectedCategory);
+        model.addAttribute("products", productFacade.getByCategoryId(categoryId));
 
         return "categories";
-    }
-
-    @GetMapping("/category-products")
-    @ResponseBody
-    public List<ProductDTO> getProductsByCategoryJson(@RequestParam Long categoryId) {
-        return productFacade.getByCategoryId(categoryId);
     }
 }

@@ -28,19 +28,18 @@ public class DefaultCategoryFacade implements CategoryFacade {
     }
 
     @Override
-    public List<CategoryDTO> getByCategoryId(Long categoryId) {
+    public CategoryDTO getByCategoryId(Long categoryId) {
         CategoryModel category;
 
         if (categoryId == null) {
-            category = categoryService.getByCategoryID(1L); // dacă nu e selectat nimic
+            category = categoryService.getByCategoryID(1L);
         } else {
             category = categoryService.getByCategoryID(categoryId);
             if (category == null) {
-                category = categoryService.getByCategoryID(1L); // dacă id-ul nu există
+                category = categoryService.getByCategoryID(1L);
             }
         }
 
-        return List.of(categoryConverter.convert(category));
+        return categoryConverter.convert(category);
     }
-
 }
