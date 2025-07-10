@@ -15,7 +15,7 @@ public class CategoryModel {
     @Column
     private String name;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<ProductModel> products;
 
     public Long getId() {

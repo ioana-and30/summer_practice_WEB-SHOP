@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface ProductService {
 
-    public List<ProductModel> getAll() throws ResourceNotFoundException;
-    public List<ProductModel> getByCategoryId(Long categoryId) throws ResourceNotFoundException;
+    public List<ProductModel> getAll() ;
+    public List<ProductModel> getByCategoryId(Long categoryId) ;
 }

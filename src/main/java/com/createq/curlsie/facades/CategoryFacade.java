@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface CategoryFacade {
 
-    public List<CategoryDTO> getAll() throws ResourceNotFoundException;
+    public List<CategoryDTO> getAll() ;
 
-    CategoryDTO getByCategoryId(Long categoryId) throws ResourceNotFoundException;
+    CategoryDTO getByCategoryId(Long categoryId) ;
 }

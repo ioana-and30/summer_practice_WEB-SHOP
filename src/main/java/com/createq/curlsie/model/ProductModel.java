@@ -22,7 +22,7 @@ public class ProductModel {
     @Column
     private String image;
 
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="category_id")
     private CategoryModel category;
 
