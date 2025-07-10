@@ -1,5 +1,6 @@
 package com.createq.curlsie.controller;
 
+import com.createq.curlsie.exceptions.ResourceNotFoundException;
 import com.createq.curlsie.facades.ProductFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,8 +20,12 @@ public class ProductController {
     @GetMapping("/products/byCategory")
     public String productsByCategory(@RequestParam Long categoryId, Model model) {
 
-        var products = productFacade.getByCategoryId(categoryId);
-        model.addAttribute("products", products);
+        try{
+            var products = productFacade.getByCategoryId(categoryId);
+            model.addAttribute("products", products);
+        }catch(ResourceNotFoundException e){
+            model.addAttribute("error", e.getMessage());
+        }
         return "products";
     }
 }
