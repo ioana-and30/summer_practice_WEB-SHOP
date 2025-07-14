@@ -1,9 +1,9 @@
 package com.createq.curlsie.service.impl;
 
+import com.createq.curlsie.exceptions.ResourceNotFoundException;
 import com.createq.curlsie.model.CategoryModel;
 import com.createq.curlsie.repository.CategoryRepository;
 import com.createq.curlsie.service.CategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,14 +22,15 @@ public class DefaultCategoryService implements CategoryService {
     }
 
     @Override
-    public List<CategoryModel> getAll() {
+    public List<CategoryModel> getAll() throws ResourceNotFoundException{
 
-        return categoryRepository.findAll();
+         return categoryRepository.findAll();
     }
 
     @Override
-    public CategoryModel getByCategoryID(Long id) {
-        return categoryRepository.findById(id).orElse(null);
+    public CategoryModel getByCategoryID(Long id) throws ResourceNotFoundException {
 
+        return categoryRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Category with id " + id + " not found."));
     }
 }

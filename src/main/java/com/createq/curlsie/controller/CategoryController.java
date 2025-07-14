@@ -2,6 +2,7 @@ package com.createq.curlsie.controller;
 
 import com.createq.curlsie.dto.CategoryDTO;
 import com.createq.curlsie.dto.ProductDTO;
+import com.createq.curlsie.exceptions.ResourceNotFoundException;
 import com.createq.curlsie.facades.CategoryFacade;
 import com.createq.curlsie.facades.ProductFacade;
 import org.springframework.stereotype.Controller;
@@ -26,13 +27,24 @@ public class CategoryController {
 
     @GetMapping("/categories")
     public String getCategories(@RequestParam(value = "categoryId", required = false) Long categoryId, Model model) {
-        var categories = categoryFacade.getAll();
-        model.addAttribute("categories", categories);
+        try {
+            var categories = categoryFacade.getAll();
+            model.addAttribute("categories", categories);
 
-        CategoryDTO selectedCategory = categoryFacade.getByCategoryId(categoryId);
-        model.addAttribute("selectedCategory", selectedCategory);
-        model.addAttribute("products", productFacade.getByCategoryId(categoryId));
+            Long idToUse = (categoryId == null) ? 1L : categoryId;
+
+            CategoryDTO selectedCategory = categoryFacade.getByCategoryId(idToUse);
+            model.addAttribute("selectedCategory", selectedCategory);
+
+            var products = productFacade.getByCategoryId(idToUse);
+            model.addAttribute("products", products);
+
+        } catch (ResourceNotFoundException e) {
+            model.addAttribute("error", e.getMessage());
+            model.addAttribute("products", List.of());
+        }
 
         return "categories";
     }
+
 }

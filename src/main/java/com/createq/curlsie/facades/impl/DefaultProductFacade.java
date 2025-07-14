@@ -2,6 +2,7 @@ package com.createq.curlsie.facades.impl;
 
 import com.createq.curlsie.converter.ProductConverter;
 import com.createq.curlsie.dto.ProductDTO;
+import com.createq.curlsie.exceptions.ResourceNotFoundException;
 import com.createq.curlsie.facades.ProductFacade;
 import com.createq.curlsie.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +23,12 @@ public class DefaultProductFacade implements ProductFacade {
     }
 
     @Override
-    public List<ProductDTO> getAll() {
+    public List<ProductDTO> getAll() throws ResourceNotFoundException {
         return productConverter.convertAll(productService.getAll());
     }
 
     @Override
-    public List<ProductDTO> getByCategoryId(Long categoryId) {
+    public List<ProductDTO> getByCategoryId(Long categoryId) throws ResourceNotFoundException{
         return productConverter.convertAll(productService.getByCategoryId(categoryId));
     }
 }

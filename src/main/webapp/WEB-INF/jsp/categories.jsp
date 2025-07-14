@@ -17,8 +17,13 @@
 <body>
 
 <header>
-    <nav>
-        <ul id="navbar">
+    <c:if test="${not empty error}">
+        <div class="error-message">
+            <p>${error}</p>
+        </div>
+    </c:if>
+    <nav class="navbar">
+        <ul class="nav-left" id="navbar">
             <c:forEach items="${categories}" var="category">
                 <li>
                     <a href="#" class="category-link" data-id="${category.id}">
@@ -27,6 +32,15 @@
                 </li>
             </c:forEach>
         </ul>
+
+        <div class="nav-center">
+            <img src="${pageContext.request.contextPath}/images/logo.png" alt="Logo" class="logo">
+        </div>
+
+        <div class="nav-right">
+            <a href="/account">Account</a>
+            <a href="/cart">Cart</a>
+        </div>
     </nav>
 </header>
 
