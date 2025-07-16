@@ -5,7 +5,7 @@ import com.createq.curlsie.model.ProductModel;
 import com.createq.curlsie.repository.CategoryRepository;
 import com.createq.curlsie.repository.ProductRepository;
 import com.createq.curlsie.service.ProductService;
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,17 +23,17 @@ public class DefaultProductService implements ProductService {
         this.categoryRepository = categoryRepository;
     }
 
-    public ProductRepository getProductRepository(){
+    public ProductRepository getProductRepository() {
         return productRepository;
     }
 
     @Override
-    public List<ProductModel> getAll() throws ResourceNotFoundException{
+    public List<ProductModel> getAll() throws ResourceNotFoundException {
         return productRepository.findAll();
     }
 
     @Override
-    public List<ProductModel> getByCategoryId(Long categoryId) throws ResourceNotFoundException {
+    public List<ProductModel> getByCategoryId(Long categoryId, Sort sort) throws ResourceNotFoundException {
 
         Long idToUse = categoryId;
 
@@ -41,11 +41,21 @@ public class DefaultProductService implements ProductService {
             idToUse = 1L;
         }
 
-        List <ProductModel> products= productRepository.findByCategory_Id(idToUse);
-        if(products.isEmpty()){
+        List<ProductModel> products = productRepository.findByCategory_Id(idToUse,sort);
+        if (products.isEmpty()) {
             throw new ResourceNotFoundException("No products found");
         }
 
         return products;
+    }
+
+    @Override
+    public ProductModel getByProductId(Long productId) throws ResourceNotFoundException {
+
+        if (productId == null || !productRepository.existsById(productId)) {
+            throw new ResourceNotFoundException("No product found");
+        }
+
+        return productRepository.findById(productId).get();
     }
 }

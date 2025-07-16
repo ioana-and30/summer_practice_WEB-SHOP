@@ -2,11 +2,12 @@ package com.createq.curlsie.controller;
 
 import com.createq.curlsie.exceptions.ResourceNotFoundException;
 import com.createq.curlsie.facades.ProductFacade;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller
 public class ProductController {
@@ -18,14 +19,35 @@ public class ProductController {
     }
 
     @GetMapping("/products/byCategory")
-    public String productsByCategory(@RequestParam Long categoryId, Model model) {
+    public String productsByCategory(@RequestParam Long categoryId,
+                                     @RequestParam(value = "sort", required = false) String sort,
+                                     Model model) {
+        try {
+            Sort sorting = Sort.unsorted();
+            if ("asc".equalsIgnoreCase(sort)) {
+                sorting = Sort.by(Sort.Direction.ASC, "price");
 
-        try{
-            var products = productFacade.getByCategoryId(categoryId);
+            } else if ("desc".equalsIgnoreCase(sort)) {
+                sorting = Sort.by(Sort.Direction.DESC, "price");
+            }
+
+            var products = productFacade.getByCategoryId(categoryId, sorting);
             model.addAttribute("products", products);
-        }catch(ResourceNotFoundException e){
+
+        } catch (ResourceNotFoundException e) {
             model.addAttribute("error", e.getMessage());
         }
         return "products";
+    }
+
+    @GetMapping("/product_details")
+    public String productDetails(@RequestParam Long productId, Model model) {
+        try{
+            var product = productFacade.getByProductId(productId);
+            model.addAttribute("product_details", product);
+        }catch(ResourceNotFoundException e){
+            model.addAttribute("error", e.getMessage());
+        }
+        return "product_details";
     }
 }

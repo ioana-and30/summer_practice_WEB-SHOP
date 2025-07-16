@@ -1,18 +1,14 @@
 package com.createq.curlsie.controller;
 
 import com.createq.curlsie.dto.CategoryDTO;
-import com.createq.curlsie.dto.ProductDTO;
 import com.createq.curlsie.exceptions.ResourceNotFoundException;
 import com.createq.curlsie.facades.CategoryFacade;
 import com.createq.curlsie.facades.ProductFacade;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-
-import java.util.List;
 
 @Controller
 public class CategoryController {
@@ -25,26 +21,56 @@ public class CategoryController {
         this.productFacade = productFacade;
     }
 
-    @GetMapping("/categories")
-    public String getCategories(@RequestParam(value = "categoryId", required = false) Long categoryId, Model model) {
+    @GetMapping("/home")
+    public String getCategories(@RequestParam(value = "categoryId", required = false) Long categoryId,
+                                @RequestParam(value = "productId", required = false) Long productId,
+                                @RequestParam(value = "sort", required = false) String sort,
+                                Model model) {
         try {
-            var categories = categoryFacade.getAll();
-            model.addAttribute("categories", categories);
-
-            Long idToUse = (categoryId == null) ? 1L : categoryId;
-
-            CategoryDTO selectedCategory = categoryFacade.getByCategoryId(idToUse);
-            model.addAttribute("selectedCategory", selectedCategory);
-
-            var products = productFacade.getByCategoryId(idToUse);
-            model.addAttribute("products", products);
+            addCategoriesToModel(model);
+            
+            if (productId != null) {
+                addProductDetailsToModel(productId, model);
+            }
+            else {
+                addProductsAndSelectedCategoryToModel(categoryId, sort, model);
+            }
 
         } catch (ResourceNotFoundException e) {
             model.addAttribute("error", e.getMessage());
-            model.addAttribute("products", List.of());
         }
 
-        return "categories";
+        return "index";
+    }
+
+    private void addProductsAndSelectedCategoryToModel(Long categoryId, String sort, Model model) {
+        Sort sorting = parseSort(sort);
+        Long idToUse = (categoryId == null) ? 1L : categoryId;
+
+        var products = productFacade.getByCategoryId(idToUse, sorting);
+        model.addAttribute("products", products);
+
+        CategoryDTO selectedCategory = categoryFacade.getByCategoryId(idToUse);
+        model.addAttribute("selectedCategory", selectedCategory);
+    }
+
+    private Sort parseSort(String sort) {
+        if ("asc".equalsIgnoreCase(sort)) {
+            return Sort.by(Sort.Direction.ASC, "price");
+        } else if ("desc".equalsIgnoreCase(sort)) {
+            return Sort.by(Sort.Direction.DESC, "price");
+        }
+        return Sort.unsorted();
+    }
+
+    private void addProductDetailsToModel(Long productId, Model model) {
+        var product = productFacade.getByProductId(productId);
+        model.addAttribute("product_details", product);
+    }
+
+    private void addCategoriesToModel(Model model) {
+        var categories = categoryFacade.getAll();
+        model.addAttribute("categories", categories);
     }
 
 }
