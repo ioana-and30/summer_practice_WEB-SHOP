@@ -63,9 +63,9 @@ function addClickEventListenerOnCategories() {
         link.addEventListener("click", function (e) {
             e.preventDefault();
             const categoryId = this.getAttribute("data-id");
-            const sort = getSortFromUrl();  // ia sortarea curentă
+            const sort = '';
             loadProducts(categoryId, sort);
-            history.pushState({categoryId: categoryId, sort: sort}, "", `?category=${categoryId}&sort=${sort}`);
+            history.pushState({categoryId: categoryId, sort: sort}, '',`?category=${categoryId}&sort=${sort}`);
         });
     });
 

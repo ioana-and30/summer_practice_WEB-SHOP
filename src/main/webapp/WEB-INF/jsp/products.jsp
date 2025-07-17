@@ -10,10 +10,12 @@
     <div class="sort-bar">
         <form id="sortForm" method="get" action="${pageContext.request.contextPath}/home">
             <input type="hidden" name="categoryId" value="${param.categoryId}"/>
-            <label for="sortSelect"></label><select name="sort" id="sortSelect" onchange="this.form.submit()">
-            <option value="" disabled selected>Sort by price</option>
-            <option value="asc" ${param.sort == 'asc' ? 'selected' : ''}>Price: Low to High</option>
-            <option value="desc" ${param.sort == 'desc' ? 'selected' : ''}>Price: High to Low</option>
+            <label for="sortSelect"></label>
+            <select name="sort" id="sortSelect" onchange="this.form.submit()">
+                <option value="" disabled selected >Sort by price</option>
+                <option value="none" >No sort</option>
+                <option value="asc" ${param.sort == 'asc' ? 'selected' : ''}>Low to High</option>
+                <option value="desc" ${param.sort == 'desc' ? 'selected' : ''}>High to Low</option>
         </select>
         </form>
     </div>
