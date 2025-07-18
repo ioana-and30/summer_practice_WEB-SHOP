@@ -2,6 +2,7 @@ package com.createq.curlsie.controller;
 
 import com.createq.curlsie.exceptions.ResourceNotFoundException;
 import com.createq.curlsie.facades.ProductFacade;
+import com.createq.curlsie.utils.Utils;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,13 +24,7 @@ public class ProductController {
                                      @RequestParam(value = "sort", required = false) String sort,
                                      Model model) {
         try {
-            Sort sorting = Sort.unsorted();
-            if ("asc".equalsIgnoreCase(sort)) {
-                sorting = Sort.by(Sort.Direction.ASC, "price");
-
-            } else if ("desc".equalsIgnoreCase(sort)) {
-                sorting = Sort.by(Sort.Direction.DESC, "price");
-            }
+            Sort sorting = Utils.parseSort(sort);
 
             var products = productFacade.getByCategoryId(categoryId, sorting);
             model.addAttribute("products", products);
@@ -49,5 +44,10 @@ public class ProductController {
             model.addAttribute("error", e.getMessage());
         }
         return "product_details";
+    }
+
+    @GetMapping("/cart")
+    public String showCart() {
+        return "cart";
     }
 }

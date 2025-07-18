@@ -1,6 +1,7 @@
 package com.createq.curlsie.controller;
 
 import com.createq.curlsie.dto.CategoryDTO;
+import com.createq.curlsie.dto.ProductDTO;
 import com.createq.curlsie.exceptions.ResourceNotFoundException;
 import com.createq.curlsie.facades.CategoryFacade;
 import com.createq.curlsie.facades.ProductFacade;
@@ -10,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+import com.createq.curlsie.utils.Utils;
 @Controller
 public class CategoryController {
 
@@ -28,13 +31,8 @@ public class CategoryController {
                                 Model model) {
         try {
             addCategoriesToModel(model);
-            
-            if (productId != null) {
-                addProductDetailsToModel(productId, model);
-            }
-            else {
-                addProductsAndSelectedCategoryToModel(categoryId, sort, model);
-            }
+            addProductsAndSelectedCategoryToModel(categoryId, sort, model);
+
 
         } catch (ResourceNotFoundException e) {
             model.addAttribute("error", e.getMessage());
@@ -44,28 +42,14 @@ public class CategoryController {
     }
 
     private void addProductsAndSelectedCategoryToModel(Long categoryId, String sort, Model model) {
-        Sort sorting = parseSort(sort);
+        Sort sorting = Utils.parseSort(sort);
         Long idToUse = (categoryId == null) ? 1L : categoryId;
 
-        var products = productFacade.getByCategoryId(idToUse, sorting);
+        List<ProductDTO> products = productFacade.getByCategoryId(idToUse, sorting);
         model.addAttribute("products", products);
 
         CategoryDTO selectedCategory = categoryFacade.getByCategoryId(idToUse);
         model.addAttribute("selectedCategory", selectedCategory);
-    }
-
-    private Sort parseSort(String sort) {
-        if ("asc".equalsIgnoreCase(sort)) {
-            return Sort.by(Sort.Direction.ASC, "price");
-        } else if ("desc".equalsIgnoreCase(sort)) {
-            return Sort.by(Sort.Direction.DESC, "price");
-        }
-        return Sort.unsorted();
-    }
-
-    private void addProductDetailsToModel(Long productId, Model model) {
-        var product = productFacade.getByProductId(productId);
-        model.addAttribute("product_details", product);
     }
 
     private void addCategoriesToModel(Model model) {
