@@ -15,7 +15,9 @@ public class ProductConverter {
         productDTO.setId(productModel.getId());
         productDTO.setName(productModel.getName());
         productDTO.setPrice(productModel.getPrice());
-        productDTO.setDescription(productModel.getDescription());
+        productDTO.setQuantity(productModel.getQuantity());
+        productDTO.setShortDescription(productModel.getShortDescription());
+        productDTO.setLongDescription(productModel.getLongDescription());
         productDTO.setImage(productModel.getImage());
 
         return productDTO;

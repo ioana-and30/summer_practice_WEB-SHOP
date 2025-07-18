@@ -6,6 +6,7 @@ import com.createq.curlsie.exceptions.ResourceNotFoundException;
 import com.createq.curlsie.facades.ProductFacade;
 import com.createq.curlsie.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -28,7 +29,12 @@ public class DefaultProductFacade implements ProductFacade {
     }
 
     @Override
-    public List<ProductDTO> getByCategoryId(Long categoryId) throws ResourceNotFoundException{
-        return productConverter.convertAll(productService.getByCategoryId(categoryId));
+    public List<ProductDTO> getByCategoryId(Long categoryId, Sort sorting) throws ResourceNotFoundException{
+        return productConverter.convertAll(productService.getByCategoryId(categoryId,sorting));
+    }
+
+    @Override
+    public ProductDTO getByProductId(Long productId) throws ResourceNotFoundException{
+        return productConverter.convert(productService.getByProductId(productId));
     }
 }
