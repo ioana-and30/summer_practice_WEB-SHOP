@@ -6,11 +6,14 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
+
 <div>
 
     <div class="product-container" data-id="${product_details.id}">
         <div class="product-details-left">
-            <img src="${pageContext.request.contextPath}/${product_details.image}" alt="${product_details.name}" class="product-image"/>
+            <img src="${contextPath}/${product_details.image}" alt="${product_details.name}" class="product-image"/>
         </div>
 
         <div class="product-details-right">
@@ -24,15 +27,18 @@
                 <div class="quantity-input">
                     <button type="button" class="modify-quantity"  onclick="decrementQuantityValue()">-</button>
                     <label for="quantity">
-                        <input type="number" id="quantity" class="quantity-text" name="quantity" value="1" min="1" max="${product_details.quantity}" step="1" >
+                        <input type="number" id="quantity" class="quantity-text" name="quantity" value="1" min="1" max="${product_details.quantity}" step="1" readonly >
                     </label>
                     <button type="button" class="modify-quantity" onclick="incrementQuantityValue()">+</button>
-                    <div id="quantity-popup" class="quantity-popup"></div>
+                    <div class="popup-message">
+                        <span class="popup-text"></span>
+                        <button class="popup-close">&times;</button>
+                    </div>
                 </div>
 
-                <button type="submit" class="add-to-cart" id="add-to-cart">Add to cart</button>
+                <button type="submit" class="add-to-cart" id="add-to-cart" data-stock="${product_details.quantity}" onclick="addToCart(${product_details.id},1)">Add to cart</button>
             </div>
-            <a href="${pageContext.request.contextPath}/categories">Continue Shopping</a>
+            <a href="${contextPath}/categories">Continue Shopping</a>
         </div>
 
         <div class="product-description" >
@@ -41,4 +47,8 @@
         </div>
     </div>
 
+    <div class="popup-message">
+        <span class="popup-text"></span>
+        <button class="popup-close">&times;</button>
+    </div>
 </div>
