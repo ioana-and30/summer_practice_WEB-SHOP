@@ -10,7 +10,7 @@
 
 <html>
 <head>
-    <title>Categories</title>
+    <title>Curlsie</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/common.css" />
 
 </head>
@@ -51,6 +51,7 @@
 </main>
 
 <script src="${pageContext.request.contextPath}/static/script/categories.js"></script>
+<script src="${pageContext.request.contextPath}/static/script/product_details.js"></script>
 
 </body>
 

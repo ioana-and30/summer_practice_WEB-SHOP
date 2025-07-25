@@ -5,16 +5,19 @@ import com.createq.curlsie.dto.ProductDTO;
 import com.createq.curlsie.exceptions.ResourceNotFoundException;
 import com.createq.curlsie.facades.CategoryFacade;
 import com.createq.curlsie.facades.ProductFacade;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 
 import java.util.List;
+import com.createq.curlsie.utils.Utils;
 
 @Controller
+@RequestMapping("/categories")
 public class CategoryController {
 
     private final CategoryFacade categoryFacade;
@@ -25,26 +28,76 @@ public class CategoryController {
         this.productFacade = productFacade;
     }
 
-    @GetMapping("/categories")
-    public String getCategories(@RequestParam(value = "categoryId", required = false) Long categoryId, Model model) {
+    /**
+     * Ruta pentru listarea tuturor categoriilor
+     * GET /categories
+     */
+    @GetMapping
+    public String getAllCategories(Model model) {
+        addCategoriesToModel(model);
+        return "index";
+    }
+
+    /**
+     * Ruta pentru listarea produselor dintr-o anumită categorie
+     * GET /categories/category/{categoryId}
+     */
+    @GetMapping("/category/{categoryId}")
+    public String getProductsByCategory(@PathVariable Long categoryId,
+                                        @RequestParam(value = "sort", required = false) String sort,
+                                        Model model) {
         try {
-            var categories = categoryFacade.getAll();
-            model.addAttribute("categories", categories);
-
-            Long idToUse = (categoryId == null) ? 1L : categoryId;
-
-            CategoryDTO selectedCategory = categoryFacade.getByCategoryId(idToUse);
-            model.addAttribute("selectedCategory", selectedCategory);
-
-            var products = productFacade.getByCategoryId(idToUse);
-            model.addAttribute("products", products);
-
+            addCategoriesToModel(model);
+            addProductsAndSelectedCategoryToModel(categoryId, sort, model);
         } catch (ResourceNotFoundException e) {
             model.addAttribute("error", e.getMessage());
-            model.addAttribute("products", List.of());
         }
+        return "products";
+    }
 
-        return "categories";
+    /**
+     * Ruta pentru un produs specific (poate afișa detalii sau redirect)
+     * GET /categories/product/{productId}
+     */
+    @GetMapping("/product_details/{productId}")
+    public String getProductDetails(@PathVariable Long productId, Model model) {
+        try {
+            addCategoriesToModel(model);
+            ProductDTO product = productFacade.getByProductId(productId);
+            model.addAttribute("product", product);
+        } catch (ResourceNotFoundException e) {
+            model.addAttribute("error", e.getMessage());
+        }
+        return "product_details";
+    }
+
+    @GetMapping("/sort")
+    public String sortProducts(@RequestParam(value = "categoryId", required = false) Long categoryId,
+                               @RequestParam(value = "field", required = false) String field,
+                               Model model) {
+        try {
+            addCategoriesToModel(model);
+            addProductsAndSelectedCategoryToModel(categoryId, field, model);
+        } catch (ResourceNotFoundException e) {
+            model.addAttribute("error", e.getMessage());
+        }
+        return "index";
+    }
+
+    private void addProductsAndSelectedCategoryToModel(Long categoryId, String sort, Model model) {
+        Sort sorting = Utils.parseSort(sort);
+        Long idToUse = (categoryId == null) ? 1L : categoryId;
+
+        List<ProductDTO> products = productFacade.getByCategoryId(idToUse, sorting);
+        model.addAttribute("products", products);
+
+        CategoryDTO selectedCategory = categoryFacade.getByCategoryId(idToUse);
+        model.addAttribute("selectedCategory", selectedCategory);
+    }
+
+    private void addCategoriesToModel(Model model) {
+        var categories = categoryFacade.getAll();
+        model.addAttribute("categories", categories);
     }
 
 }

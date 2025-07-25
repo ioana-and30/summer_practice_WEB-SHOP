@@ -14,10 +14,16 @@ public class ProductModel {
     private String name;
 
     @Column
-    private String description;
+    private String shortDescription;
+
+    @Column(length=5000)
+    private String longDescription;
 
     @Column
     private Double price;
+
+    @Column
+    private Integer quantity;
 
     @Column
     private String image;
@@ -42,12 +48,20 @@ public class ProductModel {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getShortDescription() {
+        return shortDescription;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setShortDescription(String shortDescription) {
+        this.shortDescription = shortDescription;
+    }
+
+    public String getLongDescription() {
+        return longDescription;
+    }
+
+    public void setLongDescription(String longDescription) {
+        this.longDescription = longDescription;
     }
 
     public Double getPrice() {
@@ -56,6 +70,14 @@ public class ProductModel {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
     public String getImage() {
