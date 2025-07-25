@@ -1,0 +1,124 @@
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 30px;
+    padding: 40px 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.product-card {
+    background: #fffbea;
+    border-radius: 18px;
+    height:350px;
+    box-shadow: 0 12px 24px rgba(122, 111, 63, 0.2);
+    padding: 25px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    will-change: transform;
+}
+
+.product-card:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 20px 40px rgba(122, 111, 63, 0.35);
+}
+
+.product-image {
+    width: 100%;
+    max-height: 180px;
+    object-fit: cover;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 4px 4px rgba(122, 111, 63, 0.15));
+    transition: filter 0.3s ease;
+}
+
+.product-card:hover .product-image {
+    filter: drop-shadow(0 8px 8px rgba(122, 111, 63, 0.25));
+}
+
+.product-name {
+    font-size: 15px;
+    color: #6b613e;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: 0.05em;
+}
+
+.product-price {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #5a4f2a;
+    margin-bottom: 12px;
+}
+
+.product-card img,
+.product-card .product-name,
+.product-card .product-price {
+    transition: opacity 0.3s ease;
+}
+
+.product-card:hover img,
+.product-card:hover .product-name,
+.product-card:hover .product-price {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.product-card .product-description {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 90%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    text-align: center;
+    padding: 10px;
+    background-color: #fffbea;
+    border-radius: 8px;
+
+}
+
+.product-card:hover .product-description {
+    opacity: 1;
+}
+
+.add-to-cart {
+    background: linear-gradient(135deg, #f7e77d 0%, #e6d956 100%);
+    border: none;
+    padding: 12px 25px;
+    border-radius: 30px;
+    color: #4a432a;
+    font-weight: 700;
+    font-size: 1rem;
+    box-shadow: 0 6px 12px rgba(230, 217, 86, 0.6);
+    transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+}
+
+.add-to-cart:hover {
+    background: linear-gradient(135deg, #e6d956 0%, #d5c537 100%);
+    box-shadow: 0 8px 20px rgba(213, 197, 55, 0.8);
+    transform: scale(1.1);
+}
+
+button[disabled] {
+    background-color: #ec8f97;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    font-weight: bold;
+    cursor: not-allowed;
+}
+
+.error-message {
+    color: red;
+    font-size: 40px;
+    padding: 10px;
+    margin: 20px auto;
+    width: fit-content;
+    text-align: center;
+    border-radius: 5px;
+}
