@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <c:if test="${not empty error}">
     <div class="error-message">
@@ -8,7 +9,7 @@
 
 <div class="products-section">
     <div class="sort-bar">
-        <form id="sortForm" method="get" action="${pageContext.request.contextPath}/home">
+        <form id="sortForm" method="get" action="${contextPath}/categories">
             <input type="hidden" name="categoryId" value="${param.categoryId}"/>
             <label for="sortSelect"></label>
             <select name="sort" id="sortSelect" onchange="this.form.submit()">
@@ -22,14 +23,31 @@
 
     <div class="products-grid">
         <c:forEach items="${products}" var="product">
-            <div class="product-card" data-product-id="${product.id}" onclick="loadProduct(${product.id})">
-                <img src="${pageContext.request.contextPath}/${product.image}" alt="${product.name}" class="product-image"/>
+            <div class="product-card" data-product-id="${product.id}" data-stock="${product.quantity}">
+                <input type="hidden" name="product-id" value="${product.id}">
+                <img src="${contextPath}/${product.image}" alt="${product.name}" class="product-image"/>
                 <h3 class="product-name">${product.name}</h3>
                 <p class="product-price">$${product.price}</p>
-                <p class="product-description">${product.shortDescription}</p>
-                <button class="add-to-cart">Add to cart</button>
+                <p class="product-description"  onclick="loadProduct(${product.id})" >${product.shortDescription}</p>
+
+                <c:choose>
+                    <c:when test="${product.quantity==0}">
+                        <button class="add-to-cart"  disabled>
+                            OUT OF STOCK
+                        </button>
+                    </c:when>
+                    <c:otherwise>
+                        <button class="add-to-cart" data-stock="${product.quantity}" onclick="addToCart(${product.id},2)">Add to cart</button>
+
+                    </c:otherwise>
+                </c:choose>
             </div>
         </c:forEach>
+    </div>
+
+    <div class="popup-message">
+        <span class="popup-text"></span>
+        <button class="popup-close">&times;</button>
     </div>
 </div>
 
