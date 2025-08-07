@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <c:if test="${not empty error}">
@@ -37,7 +38,11 @@
                         </button>
                     </c:when>
                     <c:otherwise>
-                        <button class="add-to-cart" data-stock="${product.quantity}" onclick="addToCart(${product.id},2)">Add to cart</button>
+                        <button class= "add-to-cart" onclick='addToCartFromCategory({ id: ${product.id},
+                                name: "${fn:escapeXml(product.name)}",
+                                price: ${product.price},
+                                image: "${contextPath}/${product.image}"})'>Add to cart
+                        </button>
 
                     </c:otherwise>
                 </c:choose>

@@ -76,6 +76,7 @@ function getProductIdFromUrl() {
     const params = new URLSearchParams(window.location.search);
     return params.get('productId');
 }
+
 function showPopUp(message, type="success") {
     const popups = document.querySelectorAll(".popup-message");
 

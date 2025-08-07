@@ -7,11 +7,12 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <div>
 
-    <div class="product-container" data-id="${product_details.id}">
+    <div class="product-container" data-id="${product_details.id}" data-stock="${product_details.quantity}">
         <div class="product-details-left">
             <img src="${contextPath}/${product_details.image}" alt="${product_details.name}" class="product-image"/>
         </div>
@@ -30,13 +31,15 @@
                         <input type="number" id="quantity" class="quantity-text" name="quantity" value="1" min="1" max="${product_details.quantity}" step="1" readonly >
                     </label>
                     <button type="button" class="modify-quantity" onclick="incrementQuantityValue()">+</button>
-                    <div class="popup-message">
-                        <span class="popup-text"></span>
-                        <button class="popup-close">&times;</button>
-                    </div>
                 </div>
 
-                <button type="submit" class="add-to-cart" id="add-to-cart" data-stock="${product_details.quantity}" onclick="addToCart(${product_details.id},1)">Add to cart</button>
+                <button class="add-to-cart" onclick='addToCartFromDetails({
+                                            id: ${product_details.id},
+                                            name: "${fn:escapeXml(product_details.name)}",
+                                            price: ${product_details.price},
+                                            image: "${contextPath}/${product_details.image}"}) '>Add to cart
+                </button>
+
             </div>
             <a href="${contextPath}/categories">Continue Shopping</a>
         </div>

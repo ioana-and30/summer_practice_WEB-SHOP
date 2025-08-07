@@ -1,5 +1,6 @@
 package com.createq.curlsie.controller;
 
+import com.createq.curlsie.dto.ProductDTO;
 import com.createq.curlsie.exceptions.ResourceNotFoundException;
 import com.createq.curlsie.facades.ProductFacade;
 import com.createq.curlsie.utils.Utils;
@@ -8,6 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 
 @Controller
@@ -44,5 +48,11 @@ public class ProductController {
             model.addAttribute("error", e.getMessage());
         }
         return "product_details";
+    }
+
+    @GetMapping("/api/products")
+    @ResponseBody
+    public List<ProductDTO> getProductsByIds(@RequestParam List<Long> ids) {
+        return productFacade.getByProductsIds(ids);
     }
 }

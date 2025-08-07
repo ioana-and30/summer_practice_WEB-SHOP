@@ -58,4 +58,9 @@ public class DefaultProductService implements ProductService {
 
         return productRepository.findById(productId).get();
     }
+
+    @Override
+    public List<ProductModel> findAllByIds(List<Long> ids) {
+        return productRepository.findAllById(ids);
+    }
 }

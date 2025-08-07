@@ -28,20 +28,22 @@ public class CategoryController {
         this.productFacade = productFacade;
     }
 
-    /**
-     * Ruta pentru listarea tuturor categoriilor
-     * GET /categories
-     */
     @GetMapping
     public String getAllCategories(Model model) {
         addCategoriesToModel(model);
+        var categories = categoryFacade.getAll();
+
+        if (!categories.isEmpty()) {
+            Long firstCategoryId = categories.get(0).getId();
+            addProductsAndSelectedCategoryToModel(firstCategoryId, null, model);
+            model.addAttribute("firstCategoryId", firstCategoryId); // important pt JS
+        } else {
+            model.addAttribute("firstCategoryId", null);
+        }
+
         return "index";
     }
 
-    /**
-     * Ruta pentru listarea produselor dintr-o anumită categorie
-     * GET /categories/category/{categoryId}
-     */
     @GetMapping("/category/{categoryId}")
     public String getProductsByCategory(@PathVariable Long categoryId,
                                         @RequestParam(value = "sort", required = false) String sort,
@@ -55,10 +57,6 @@ public class CategoryController {
         return "products";
     }
 
-    /**
-     * Ruta pentru un produs specific (poate afișa detalii sau redirect)
-     * GET /categories/product/{productId}
-     */
     @GetMapping("/product_details/{productId}")
     public String getProductDetails(@PathVariable Long productId, Model model) {
         try {

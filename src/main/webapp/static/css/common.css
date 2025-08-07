@@ -80,6 +80,44 @@ main{
     text-align: center;
 }
 
+.user-logout-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logout-form {
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+#logout-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+#logout-button:hover {
+    background-color: #f3e6a9;
+}
+
+#logout-button svg {
+    width: 24px;
+    height: 24px;
+    fill: #c9a227;
+    transition: fill 0.3s ease;
+}
+
+#logout-button:hover svg {
+    fill: #eacb59;
+}
 .logo {
     height: 80px;
 }

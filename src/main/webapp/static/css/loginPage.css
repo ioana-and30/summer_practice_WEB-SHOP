@@ -1,0 +1,103 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #fff9e6 0%, #fff3b0 100%);
+    color: #4a432a;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+header {
+    background-color: rgba(255, 245, 200, 0.9);
+    box-shadow: 0 6px 20px rgba(200, 180, 100, 0.25);
+    padding: 18px 60px;
+    font-family: 'Montserrat', 'Segoe UI', sans-serif;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {
+    background-color: #fffbe6;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(90, 77, 43, 0.2);
+    padding: 40px 30px;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+}
+
+form div {
+    margin-bottom: 15px;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px 8px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #fff;
+    color: #4a432a;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    outline: none;
+    border-color: #cba952;
+    box-shadow: 0 0 0 2px rgba(203, 169, 82, 0.2);
+}
+
+button[type="submit"] {
+    background-color: #cba952;
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #bfa03f;
+}
+
+.register-form {
+    margin-top: 15px;
+}
+
+.register-form a {
+    color: #7a6834;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.register-form a:hover {
+    color: #5a4d2b;
+    text-decoration: underline;
+}
+
+footer {
+    background-color: #fff3b0;
+    text-align: center;
+    padding: 20px 10px;
+    color: #5a4f2a;
+    font-weight: 600;
+    font-size: 1rem;
+    box-shadow: 0 -4px 15px rgba(122, 111, 63, 0.2);
+}

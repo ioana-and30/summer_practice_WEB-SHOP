@@ -65,7 +65,7 @@ function addClickEventListenerOnCategories() {
             const categoryId = this.getAttribute("data-id");
             const sort = '';
             loadProducts(categoryId, sort);
-            history.pushState({categoryId: categoryId, sort: sort}, '',`?category=${categoryId}&sort=${sort}`);
+            history.pushState({categoryId: categoryId, sort: sort}, '', `?category=${categoryId}&sort=${sort}`);
         });
     });
 
@@ -76,13 +76,19 @@ function addClickEventListenerOnCategories() {
         let categoryId = getCategoryFromUrl();
         let sort = getSortFromUrl();
 
-        if (!categoryId && categoryLinks.length > 0) {
+        if ((!categoryId || categoryId === 'null') && categoryLinks.length > 0) {
             categoryId = categoryLinks[0].getAttribute("data-id");
             history.replaceState({categoryId: categoryId, sort: sort}, "", `?category=${categoryId}&sort=${sort}`);
         }
-        loadProducts(categoryId, sort);
+
+        if (categoryId) {
+            loadProducts(categoryId, sort);
+        } else {
+            document.getElementById("products-container").innerHTML = "<p>No categories available.</p>";
+        }
     }
 }
+
 
 window.addEventListener('popstate', function(event) {
     console.log("popstate event", event.state);

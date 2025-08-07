@@ -2,8 +2,6 @@ package com.createq.curlsie.converter;
 
 import com.createq.curlsie.dto.CategoryDTO;
 import com.createq.curlsie.model.CategoryModel;
-import jakarta.persistence.Id;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -18,23 +16,48 @@ public class CategoryConverter {
         this.productConverter = productConverter;
     }
 
-    public CategoryDTO convert(CategoryModel categoryModel) {
-
+    public CategoryDTO convertToDTO(CategoryModel categoryModel) {
         CategoryDTO categoryDTO = new CategoryDTO();
 
         categoryDTO.setId(categoryModel.getId());
         categoryDTO.setName(categoryModel.getName());
-        categoryDTO.setProducts(productConverter.convertAll(categoryModel.getProducts()));
+        categoryDTO.setProducts(productConverter.convertAllToDTO(categoryModel.getProducts()));
 
         return categoryDTO;
     }
 
-    public List<CategoryDTO> convertAll(List<CategoryModel> categoryModels) {
+    public CategoryDTO convertToDTOShallow(CategoryModel categoryModel) {
+        CategoryDTO categoryDTO = new CategoryDTO();
+        categoryDTO.setId(categoryModel.getId());
+        categoryDTO.setName(categoryModel.getName());
+
+        return categoryDTO;
+    }
+
+    public List<CategoryDTO> convertAllToDTO(List<CategoryModel> categoryModels) {
         List<CategoryDTO> categoryDTOS = new ArrayList<>();
         for (CategoryModel categoryModel : categoryModels) {
-            categoryDTOS.add(convert(categoryModel));
+            categoryDTOS.add(convertToDTO(categoryModel));
         }
 
         return categoryDTOS;
+    }
+
+    public List<CategoryModel> convertAllToModel(List<CategoryDTO> categoryDTOS){
+        List<CategoryModel> categoryModels=new ArrayList<>();
+        for(CategoryDTO categoryDTO: categoryDTOS){
+            categoryModels.add(convertToModel(categoryDTO));
+        }
+
+        return categoryModels;
+    }
+
+    public CategoryModel convertToModel(CategoryDTO categoryDTO) {
+        CategoryModel categoryModel = new CategoryModel();
+        categoryModel.setId(categoryDTO.getId());
+        categoryModel.setName(categoryDTO.getName());
+        categoryModel.setProducts(productConverter.convertAllToModel(categoryDTO.getProducts()));
+
+        return categoryModel;
     }
 }

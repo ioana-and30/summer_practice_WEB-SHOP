@@ -25,16 +25,21 @@ public class DefaultProductFacade implements ProductFacade {
 
     @Override
     public List<ProductDTO> getAll() throws ResourceNotFoundException {
-        return productConverter.convertAll(productService.getAll());
+        return productConverter.convertAllToDTO(productService.getAll());
     }
 
     @Override
     public List<ProductDTO> getByCategoryId(Long categoryId, Sort sorting) throws ResourceNotFoundException{
-        return productConverter.convertAll(productService.getByCategoryId(categoryId,sorting));
+        return productConverter.convertAllToDTO(productService.getByCategoryId(categoryId,sorting));
     }
 
     @Override
     public ProductDTO getByProductId(Long productId) throws ResourceNotFoundException{
-        return productConverter.convert(productService.getByProductId(productId));
+        return productConverter.convertToDTO(productService.getByProductId(productId));
+    }
+
+    @Override
+    public List<ProductDTO> getByProductsIds(List<Long> productsId) {
+        return productConverter.convertAllToDTO(productService.findAllByIds(productsId));
     }
 }

@@ -12,4 +12,6 @@ public interface ProductFacade {
     List<ProductDTO> getByCategoryId(Long categoryId, Sort sorting) ;
 
     ProductDTO getByProductId(Long productId) ;
+
+    List<ProductDTO> getByProductsIds(List<Long> productsId) ;
 }
